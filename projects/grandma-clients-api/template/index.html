@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Futuristic Interface</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>User Management System</h1>
+
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All States</button>
+        </div>
+
+        <div class="add-user-container">
+            <button class="add-user-btn" id="add-user-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add New User
+            </button>
+        </div>
+
+        <div class="user-list-container">
+            {{range $index, $user := .}}
+            <div class="user" data-name="{{.Name}}" data-age="{{.Age}}" data-city="{{.Address.City}}"
+                data-state="{{.Address.State}}" style="--order: {{$index}}">
+                <h2>{{.Name}}</h2>
+                <div class="age-display" data-age="{{.Age}}" style="--age: {{.Age}}"></div>
+
+                <div class="user-info">
+                    <div class="label">ID:</div>
+                    <div class="value">{{.ID}}</div>
+
+                    <div class="label">Location:</div>
+                    <div class="value">
+                        <span class="location-icon" data-state="{{.Address.State}}"></span>
+                        {{if .Address}}
+                        {{.Address.City}}, {{.Address.State}}
+                        {{else}}
+                        Location not specified
+                        {{end}}
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button class="action-button view" data-id="{{.ID}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        View
+                    </button>
+                    <button class="action-button edit" data-id="{{.ID}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                        Edit
+                    </button>
+                    <button class="action-button delete" data-id="{{.ID}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        Delete
+                    </button>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+
+    <div class="modal" id="user-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 id="modal-title">Add New User</h2>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <div class="form-group">
+                    <label for="user-name">Name</label>
+                    <input type="text" class="form-control" id="user-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-age">Age</label>
+                    <input type="number" class="form-control" id="user-age" min="1" max="120" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-city">City</label>
+                    <input type="text" class="form-control" id="user-city" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-state">State</label>
+                    <input type="text" class="form-control" id="user-state" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/static/js/app.js"></script>
+</body>
+
+</html>
